@@ -1,0 +1,19 @@
+Source: linux-musl-dev
+Section: devel
+Priority: extra
+Maintainer: Kevin Bortis <pkgs@bortis.ch>
+Build-Depends: debhelper (>=9), dh-exec (>=0.6) 
+Standards-Version: 3.9.5
+Homepage: https://github.com/sabotage-linux/kernel-headers
+Vcs-Git: https://github.com/wermut/linux-musl-dev.git
+Vcs-Browser: https://github.com/wermut/linux-musl-dev
+
+Package: linux-musl-dev
+Section: devel
+Architecture: armel armhf i386 amd64 mips mipsel
+Depends: ${misc:Depends}
+Description: Linux support headers for userspace musl development
+ This package provides sanitized userspace headers from the
+ Linux kernel. These headers are used by the musl libc if
+ installed.
+

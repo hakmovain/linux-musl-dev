@@ -1,0 +1,53 @@
+#!/usr/bin/make -f
+export DH_OPTIONS
+
+DEB_HOST_GNU_TYPE ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+DEB_HOST_GNU_CPU ?= $(shell dpkg-architecture -qDEB_HOST_GNU_CPU)
+DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
+
+# Calculating musl based architecture
+KERNEL_ARCH=$(DEB_HOST_GNU_CPU)
+MUSL_TRIPLE=$(DEB_HOST_GNU_CPU)-linux-musl
+
+ifeq ($(DEB_HOST_ARCH),armel)
+  KERNEL_ARCH=arm
+  MUSL_TRIPLE=arm-linux-musleabi
+endif
+
+ifeq ($(DEB_HOST_ARCH),armhf)
+  KERNEL_ARCH=arm
+  MUSL_TRIPLE=arm-linux-musleabihf
+endif
+
+ifeq ($(DEB_HOST_ARCH),i386)
+  MUSL_ARCH=i386
+  MUSL_TRIPLE=i386-linux-musl
+endif
+
+ifeq ($(DEB_HOST_GNU_CPU),mips*)
+  KERNEL_ARCH=mips
+endif
+
+export KERNEL_ARCH
+export MUSL_TRIPLE
+
+%:
+	dh $@
+
+debian/scripts/$(MUSL_TRIPLE).path: debian/scripts/config.path.in
+	sed 's/@MUSL_TRIPLE@/$(MUSL_TRIPLE)/g' $< > $@
+	cp debian/scripts/$(MUSL_TRIPLE).path debian/scripts/ld-musl-$(MUSL_ARCH).path
+
+override_dh_auto_clean:
+	dh_auto_clean -- ARCH=$(KERNEL_ARCH)
+
+# Nothing to do and prevent missconfiguration
+override_dh_auto_configure:
+override_dh_auto_build:
+override_dh_auto_test:
+
+# Symply install into DESTDIR
+override_dh_auto_install:
+	make ARCH=$(KERNEL_ARCH) prefix=/usr DESTDIR=$(CURDIR)/debian/tmp install
+
