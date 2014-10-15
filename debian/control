@@ -3,7 +3,7 @@ Section: devel
 Priority: extra
 Maintainer: Kevin Bortis <pkgs@bortis.ch>
 Build-Depends: debhelper (>=9), dh-exec (>=0.6) 
-Standards-Version: 3.9.5
+Standards-Version: 3.9.6
 Homepage: https://github.com/sabotage-linux/kernel-headers
 Vcs-Git: https://github.com/wermut/linux-musl-dev.git
 Vcs-Browser: https://github.com/wermut/linux-musl-dev
