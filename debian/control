@@ -10,7 +10,7 @@ Vcs-Browser: https://github.com/wermut/linux-musl-dev
 
 Package: linux-musl-dev
 Section: devel
-Architecture: armel armhf i386 amd64 mips mipsel
+Architecture: arm64 armel armhf i386 amd64 mips mipsel
 Depends: ${misc:Depends}
 Description: Linux support headers for userspace musl development
  This package provides sanitized userspace headers from the
