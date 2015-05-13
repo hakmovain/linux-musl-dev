@@ -21,7 +21,7 @@ ifeq ($(DEB_HOST_ARCH),armhf)
 endif
 
 ifeq ($(DEB_HOST_ARCH),i386)
-  MUSL_ARCH=i386
+  KERNEL_ARCH=i386
   MUSL_TRIPLE=i386-linux-musl
 endif
 
@@ -35,14 +35,10 @@ export MUSL_TRIPLE
 %:
 	dh $@
 
-debian/scripts/$(MUSL_TRIPLE).path: debian/scripts/config.path.in
-	sed 's/@MUSL_TRIPLE@/$(MUSL_TRIPLE)/g' $< > $@
-	cp debian/scripts/$(MUSL_TRIPLE).path debian/scripts/ld-musl-$(MUSL_ARCH).path
-
 override_dh_auto_clean:
 	dh_auto_clean -- ARCH=$(KERNEL_ARCH)
 
-# Nothing to do and prevent missconfiguration
+# Nothing to do and to prevent missconfiguration
 override_dh_auto_configure:
 override_dh_auto_build:
 override_dh_auto_test:
