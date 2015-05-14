@@ -14,6 +14,6 @@ Architecture: arm64 armel armhf i386 amd64 mips mipsel
 Depends: ${misc:Depends}
 Description: Linux support headers for userspace musl development
  This package provides sanitized userspace headers from the
- Linux kernel. These headers are used by the musl libc if
+ Linux kernel. These headers are used by the musl libc tools if
  installed.
 
